@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 		<title>Knowledge Runner</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,42 +19,41 @@
 
 		<!-- IN-GAME HUD -->
 		<div id="ui-layer" style="display: none;">
-			<button class="btn-pause-floating" id="btn-pause-floating" aria-label="Pause Game" title="Pause (ESC)">
-				<span class="material-symbols-outlined">pause</span>
-			</button>
-
 			<div class="hud-top">
 				<div class="stats-bar">
-					<div class="stat-item">
-						<span>SCORE</span>
+					<div class="stat-item stat-score">
+						<span class="stat-label">SCORE</span>
 						<span class="stat-value" id="hud-score">0</span>
 					</div>
-					<div class="stat-item">
-						<span>STREAK</span>
-						<span class="stat-value" id="hud-streak" style="color: var(--yellow);">0</span>
+					<div class="stat-item stat-streak">
+						<span class="stat-label">STREAK</span>
+						<span class="stat-value stat-streak-val" id="hud-streak">0</span>
 					</div>
-					<div class="stat-item">
+					<div class="stat-item stat-tier">
 						<span class="tier-badge" id="hud-tier">TIER 1</span>
 					</div>
-					<div class="stat-item">
-						<span>LIVES</span>
+					<div class="stat-item stat-lives">
+						<span class="stat-label" style="display: none;">LIVES</span>
 						<div class="lives-container" id="hud-lives">
 							<span class="material-symbols-outlined heart-icon active">favorite</span>
 							<span class="material-symbols-outlined heart-icon active">favorite</span>
 							<span class="material-symbols-outlined heart-icon active">favorite</span>
 						</div>
 					</div>
+					<button class="btn-pause-header" id="btn-pause-floating" aria-label="Pause Game" title="Pause (ESC)">
+						<span class="material-symbols-outlined">pause</span>
+					</button>
 				</div>
 
 				<div class="question-banner" id="question-banner">
-					<div class="fetch-toast" id="fetch-toast">
-						<div class="mini-spinner"></div>
-						<span>Synthesizing harder tier...</span>
-					</div>
-
 					<div class="banner-top-meta">
 						<span class="q-number-tag" id="q-number">QUESTION 1</span>
 						<span class="q-difficulty diff-easy" id="q-difficulty">EASY</span>
+					</div>
+
+					<div class="fetch-toast" id="fetch-toast">
+						<div class="mini-spinner"></div>
+						<span>Synthesizing harder tier...</span>
 					</div>
 
 					<div class="q-text" id="q-text">Loading question...</div>
@@ -69,16 +68,28 @@
 			<div class="hud-bottom">
 				<div class="lane-cards-grid">
 					<div class="lane-card" id="card-lane-0" data-lane="0">
-						<span class="lane-badge">← LEFT [A]</span>
-						<span class="lane-text" id="text-lane-0">Option A</span>
+						<div class="lane-badge">
+							<span>←</span>
+							<span>LANE A</span>
+							<span class="badge-key">[A]</span>
+						</div>
+						<div class="lane-text" id="text-lane-0">Option A</div>
 					</div>
 					<div class="lane-card active" id="card-lane-1" data-lane="1">
-						<span class="lane-badge">↑ CENTER [W]</span>
-						<span class="lane-text" id="text-lane-1">Option B</span>
+						<div class="lane-badge">
+							<span>↑</span>
+							<span>LANE B</span>
+							<span class="badge-key">[W]</span>
+						</div>
+						<div class="lane-text" id="text-lane-1">Option B</div>
 					</div>
 					<div class="lane-card" id="card-lane-2" data-lane="2">
-						<span class="lane-badge">RIGHT → [D]</span>
-						<span class="lane-text" id="text-lane-2">Option C</span>
+						<div class="lane-badge">
+							<span>LANE C</span>
+							<span>→</span>
+							<span class="badge-key">[D]</span>
+						</div>
+						<div class="lane-text" id="text-lane-2">Option C</div>
 					</div>
 				</div>
 			</div>
@@ -143,8 +154,7 @@
 
 				<div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
 					<button class="btn-action" style="flex: 1;" id="btn-restart">Run Again</button>
-					<button class="btn-action" style="flex: 1; background: #334155; color: #fff;" id="btn-new-topic">New
-						Topic</button>
+					<button class="btn-action" style="flex: 1; background: #334155; color: #fff;" id="btn-new-topic">New Topic</button>
 				</div>
 			</div>
 		</div>

@@ -7,17 +7,44 @@ export let gridLines = [];
 export let sceneryObjects = [];
 export let particles;
 
+export function updateCameraConfig() {
+	if (!camera) return;
+	const aspect = window.innerWidth / window.innerHeight;
+	camera.aspect = aspect;
+
+	if (aspect < 0.6) {
+		// Phone portrait: widen FOV & elevate slightly so all lanes and doors fit
+		camera.fov = 72;
+		camera.baseY = 5.2;
+		camera.baseZ = 10.4;
+	} else if (aspect < 1.0) {
+		// Tablet portrait
+		camera.fov = 68;
+		camera.baseY = 4.8;
+		camera.baseZ = 9.0;
+	} else {
+		// Desktop / Landscape
+		camera.fov = 64;
+		camera.baseY = 4.4;
+		camera.baseZ = 7.8;
+	}
+	camera.updateProjectionMatrix();
+}
+
 export function init3D() {
 	const container = document.getElementById("canvas-container");
 
 	scene = new THREE.Scene();
 	scene.fog = new THREE.FogExp2(0x070913, 0.012);
 
-	camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 350);
-	camera.position.set(0, 4.4, 7.8);
-	camera.lookAt(0, 2.0, -10);
+	const initialAspect = window.innerWidth / window.innerHeight;
+	camera = new THREE.PerspectiveCamera(64, initialAspect, 0.1, 350);
+	updateCameraConfig();
 
-	renderer = new THREE.WebGLRenderer({ antialias: true });
+	camera.position.set(0, camera.baseY, camera.baseZ);
+	camera.lookAt(0, 1.8, -12);
+
+	renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 	renderer.setClearColor(0x070913);
@@ -269,7 +296,6 @@ export function createQuestionGateGroup(qData) {
 
 export function onWindowResize() {
 	if (!camera || !renderer) return;
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
+	updateCameraConfig();
 	renderer.setSize(window.innerWidth, window.innerHeight);
 }

@@ -25,6 +25,7 @@ import {
 
 let clock;
 let cameraShake = 0;
+let currentCamX = 0;
 
 function setPlayerLane(laneIdx) {
 	if (GameState.status !== 'PLAYING') return;
@@ -108,7 +109,6 @@ function handleGateCollision(gate) {
 		GameState.score += points;
 		GameState.speed = Math.min(22, GameState.speed + 0.35);
 
-		// Restore 1 life on correct up to 3 max
 		let gainedLife = false;
 		if (GameState.lives < 3) {
 			GameState.lives = Math.min(3, GameState.lives + 1);
@@ -118,7 +118,7 @@ function handleGateCollision(gate) {
 		SoundFX.playCorrect(gainedLife);
 
 		const lifeNotice = gainedLife
-			? `<br><span style="font-size:1.6rem; color:var(--cyan); display:inline-flex; align-items:center; justify-content:center; gap:0.35rem;"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1; color:var(--red); font-size:1.8rem;">favorite</span> +1 LIFE RESTORED!</span>`
+			? `<br><span style="font-size:1.4rem; color:var(--cyan); display:inline-flex; align-items:center; justify-content:center; gap:0.35rem;"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1; color:var(--red); font-size:1.6rem;">favorite</span> +1 LIFE RESTORED!</span>`
 			: "";
 		showFeedback(`CORRECT! +${points}${lifeNotice}`, true);
 
@@ -186,6 +186,10 @@ async function onStartGameClick() {
 
 function startGame() {
 	resetGameRuntimeState();
+	currentCamX = 0;
+	if (playerGroup) {
+		playerGroup.position.x = LANE_X[GameState.playerLane];
+	}
 	showScreen('playing');
 
 	updateHUDStats();
@@ -225,6 +229,26 @@ function animate() {
 		characterMeshes.rightArm.rotation.x = Math.sin(runCycle) * 0.65;
 		playerGroup.position.y = Math.abs(Math.sin(runCycle)) * 0.16;
 
+		// Responsive camera framing: follow player lane so character is never clipped
+		const aspect = camera.aspect || (window.innerWidth / window.innerHeight);
+		const followFactor = aspect < 0.6 ? 0.72 : (aspect < 1.0 ? 0.48 : 0.25);
+		const targetCamX = playerGroup.position.x * followFactor;
+		currentCamX += (targetCamX - currentCamX) * 10 * dt;
+
+		const camBaseY = camera.baseY || 4.4;
+		const camBaseZ = camera.baseZ || 7.8;
+
+		if (cameraShake > 0) {
+			camera.position.x = currentCamX + (Math.random() - 0.5) * cameraShake;
+			camera.position.y = camBaseY + (Math.random() - 0.5) * cameraShake;
+			cameraShake = Math.max(0, cameraShake - dt * 1.5);
+		} else {
+			camera.position.x = currentCamX;
+			camera.position.y = camBaseY;
+		}
+		camera.position.z = camBaseZ;
+		camera.lookAt(currentCamX * 0.55, 1.8, -12);
+
 		gridLines.forEach(line => {
 			line.position.z += currentSpeed * dt;
 			if (line.position.z > 10) line.position.z -= 380;
@@ -261,19 +285,15 @@ function animate() {
 		} else {
 			document.getElementById("approach-bar").style.width = `0%`;
 		}
-
-		if (cameraShake > 0) {
-			camera.position.x = (Math.random() - 0.5) * cameraShake;
-			camera.position.y = 4.4 + (Math.random() - 0.5) * cameraShake;
-			cameraShake = Math.max(0, cameraShake - dt * 1.5);
-		} else {
-			camera.position.x = 0;
-			camera.position.y = 4.4;
-		}
 	} else if (GameState.status === 'PAUSED') {
 		// Frozen in place while paused
 	} else {
+		const camBaseY = camera ? (camera.baseY || 4.4) : 4.4;
+		const camBaseZ = camera ? (camera.baseZ || 7.8) : 7.8;
 		camera.position.x = Math.sin(elapsedTime * 0.4) * 1.2;
+		camera.position.y = camBaseY;
+		camera.position.z = camBaseZ;
+		camera.lookAt(0, 2.0, -10);
 	}
 
 	renderer.render(scene, camera);
@@ -326,7 +346,7 @@ function bindEvents() {
 	window.addEventListener('touchend', (e) => {
 		if (GameState.status !== 'PLAYING') return;
 		const deltaX = e.changedTouches[0].clientX - touchStartX;
-		if (Math.abs(deltaX) > 40) {
+		if (Math.abs(deltaX) > 35) {
 			if (deltaX < 0) setPlayerLane(Math.max(0, GameState.playerLane - 1));
 			else setPlayerLane(Math.min(2, GameState.playerLane + 1));
 		}
