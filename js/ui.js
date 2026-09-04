@@ -22,9 +22,10 @@ export function updateHUDStats() {
 
 	let hearts = "";
 	for (let i = 0; i < 3; i++) {
-		hearts += (i < GameState.lives) ? "❤️" : "🖤";
+		const isActive = i < GameState.lives;
+		hearts += `<span class="material-symbols-outlined heart-icon ${isActive ? 'active' : 'empty'}">favorite</span>`;
 	}
-	document.getElementById("hud-lives").textContent = hearts;
+	document.getElementById("hud-lives").innerHTML = hearts;
 }
 
 export function updateHUDQuestion(qData) {
@@ -76,8 +77,10 @@ export function renderGameOverReview() {
 		div.className = `review-entry ${item.isCorrect ? 'passed' : 'missed'}`;
 		div.innerHTML = `
       <div style="font-weight:700;">${i + 1}. ${escapeHTML(item.question)}</div>
-      <div style="color: ${item.isCorrect ? 'var(--green)' : 'var(--red)'}; margin-top:3px; font-weight:600;">
-        ${item.isCorrect ? '✓ Correct' : `✗ You chose: ${escapeHTML(item.chosen)} | Correct: ${escapeHTML(item.correct)}`}
+      <div style="color: ${item.isCorrect ? 'var(--green)' : 'var(--red)'}; margin-top:3px; font-weight:600; display:flex; align-items:center; gap:0.25rem;">
+        ${item.isCorrect
+				? '<span class="material-symbols-outlined" style="font-size:1.1rem; font-variation-settings:\'FILL\' 1;">check_circle</span> Correct'
+				: `<span class="material-symbols-outlined" style="font-size:1.1rem; font-variation-settings:\'FILL\' 1;">cancel</span> You chose: ${escapeHTML(item.chosen)} | Correct: ${escapeHTML(item.correct)}`}
       </div>
       <div style="font-size:0.8rem; color:#94a3b8; margin-top:3px;">${escapeHTML(item.explanation || '')}</div>
     `;

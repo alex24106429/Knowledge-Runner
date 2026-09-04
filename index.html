@@ -5,9 +5,12 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Knowledge Runner</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 	<link rel="stylesheet" href="css/style.css">
-	<!-- Three.js CDN -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<script type="module" src="js/main.js" defer></script>
 </head>
 
 <body>
@@ -31,7 +34,11 @@
 				</div>
 				<div class="stat-item">
 					<span>LIVES</span>
-					<div class="lives-container" id="hud-lives">❤️❤️❤️</div>
+					<div class="lives-container" id="hud-lives">
+						<span class="material-symbols-outlined heart-icon active">favorite</span>
+						<span class="material-symbols-outlined heart-icon active">favorite</span>
+						<span class="material-symbols-outlined heart-icon active">favorite</span>
+					</div>
 				</div>
 			</div>
 
@@ -77,21 +84,14 @@
 	<div class="screen-modal" id="screen-start">
 		<div class="modal-card">
 			<h1 class="game-title">KNOWLEDGE <span>RUNNER</span></h1>
-			<p class="modal-subtitle">Infinite AI Quiz Runner.</p>
 
 			<div class="form-group">
 				<label for="topic-input">Quiz Topic</label>
-				<input type="text" id="topic-input" placeholder="e.g. Solar System, World War II..."
-					value="Solar System">
-				<div class="preset-chips">
-					<span class="chip" data-topic="Solar System">🪐 Astronomy</span>
-					<span class="chip" data-topic="World War II">⚔️ History</span>
-					<span class="chip" data-topic="Computer Science">💻 Tech</span>
-					<span class="chip" data-topic="Biology & Cells">🧬 Biology</span>
-				</div>
+				<input type="text" id="topic-input" placeholder="e.g. AI Ethics, Python..."
+					value="AI Ethics">
 			</div>
 
-			<button class="btn-action" id="btn-start">Start Infinite Run</button>
+			<button class="btn-action" id="btn-start">START</button>
 			<div style="margin-top: 1rem; font-size: 0.8rem; color: #64748b;">
 				Controls: Left/Right Arrow Keys, A / D, or tap bottom lane cards.
 			</div>
@@ -138,8 +138,6 @@
 			</div>
 		</div>
 	</div>
-
-	<script type="module" src="js/main.js"></script>
 </body>
 
 </html>
