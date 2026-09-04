@@ -10,7 +10,23 @@ export function showScreen(screen) {
 	document.getElementById("screen-start").style.display = screen === 'start' ? 'flex' : 'none';
 	document.getElementById("screen-loading").style.display = screen === 'loading' ? 'flex' : 'none';
 	document.getElementById("screen-gameover").style.display = screen === 'gameover' ? 'flex' : 'none';
-	document.getElementById("ui-layer").style.display = screen === 'playing' ? 'flex' : 'none';
+	const pauseModal = document.getElementById("screen-pause");
+	if (pauseModal) pauseModal.style.display = screen === 'pause' ? 'flex' : 'none';
+	if (screen !== 'pause') {
+		document.body.classList.remove("is-paused");
+	}
+	document.getElementById("ui-layer").style.display = (screen === 'playing' || screen === 'pause') ? 'flex' : 'none';
+}
+
+export function setPauseScreenVisible(isPaused) {
+	const pauseModal = document.getElementById("screen-pause");
+	if (isPaused) {
+		document.body.classList.add("is-paused");
+		if (pauseModal) pauseModal.style.display = 'flex';
+	} else {
+		document.body.classList.remove("is-paused");
+		if (pauseModal) pauseModal.style.display = 'none';
+	}
 }
 
 export function updateHUDStats() {

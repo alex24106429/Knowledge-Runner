@@ -50,6 +50,7 @@ html {
 	width: 100%;
 	height: 100%;
 	z-index: 1;
+	transition: filter 0.2s ease;
 }
 
 #ui-layer {
@@ -63,6 +64,46 @@ html {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	transition: filter 0.2s ease;
+}
+
+/* Floating Pause Button */
+.btn-pause-floating {
+	position: fixed;
+	top: 1rem;
+	right: 1.25rem;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	background: rgba(15, 23, 42, 0.9);
+	border: 2px solid var(--border-color);
+	color: var(--cyan);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	z-index: 30;
+	pointer-events: auto;
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 240, 255, 0.25);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+	outline: none;
+}
+
+.btn-pause-floating:hover {
+	border-color: var(--cyan);
+	background: #18233c;
+	transform: scale(1.08);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 240, 255, 0.5);
+}
+
+.btn-pause-floating:active {
+	transform: scale(0.92);
+}
+
+.btn-pause-floating .material-symbols-outlined {
+	font-size: 26px;
 }
 
 /* Top HUD */
@@ -358,6 +399,46 @@ html {
 	line-height: 1.4;
 }
 
+/* Pause Screen */
+#screen-pause {
+	background: rgba(7, 9, 19, 0.5);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	z-index: 60;
+}
+
+.pause-card {
+	max-width: 360px;
+	padding: 2.5rem 2rem;
+	border: 2px solid var(--cyan);
+	box-shadow: 0 0 35px rgba(0, 240, 255, 0.3), 0 10px 40px rgba(0, 0, 0, 0.9);
+}
+
+.pause-title {
+	font-size: 2.8rem;
+	letter-spacing: 3px;
+	margin-bottom: 1.8rem;
+	color: #ffffff;
+	text-shadow: 0 0 20px rgba(0, 240, 255, 0.7);
+}
+
+.pause-hint {
+	margin-top: 1.25rem;
+	font-size: 0.85rem;
+	color: #94a3b8;
+}
+
+.pause-hint kbd {
+	background: #1e293b;
+	border: 1px solid #475569;
+	border-radius: 4px;
+	padding: 0.15rem 0.45rem;
+	color: var(--cyan);
+	font-family: monospace;
+	font-weight: 700;
+	font-size: 0.85rem;
+}
+
 .form-group {
 	display: flex;
 	flex-direction: column;
@@ -466,4 +547,42 @@ input[type="text"]:focus {
 
 .review-entry.passed {
 	border-left-color: var(--green);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+	.hud-top {
+		padding-top: 0.6rem;
+		padding-left: 0.75rem;
+		padding-right: 4.25rem;
+		/* Leaves room so floating pause button never overlaps */
+	}
+
+	.btn-pause-floating {
+		top: 0.65rem;
+		right: 0.75rem;
+		width: 42px;
+		height: 42px;
+	}
+
+	.stats-bar {
+		padding: 0.45rem 0.75rem;
+	}
+
+	.stat-item {
+		font-size: 0.75rem;
+		gap: 0.3rem;
+	}
+
+	.stat-value {
+		font-size: 1rem;
+	}
+
+	.heart-icon {
+		font-size: 1.15rem;
+	}
+
+	.pause-title {
+		font-size: 2.3rem;
+	}
 }

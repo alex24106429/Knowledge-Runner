@@ -3,8 +3,8 @@ export const GATE_SPAWN_Z = -140;
 export const PLAYER_Z = 0;
 
 export const GameState = {
-	status: 'MENU', // 'MENU' | 'PLAYING' | 'GAMEOVER'
-	topic: 'Solar System',
+	status: 'MENU', // 'MENU' | 'PLAYING' | 'PAUSED' | 'GAMEOVER'
+	topic: 'AI Ethics',
 	score: 0,
 	streak: 0,
 	maxStreak: 0,

@@ -15,6 +15,7 @@ import {
 } from './world.js';
 import {
 	showScreen,
+	setPauseScreenVisible,
 	updateHUDStats,
 	updateHUDQuestion,
 	updateLaneCardHighlights,
@@ -31,6 +32,26 @@ function setPlayerLane(laneIdx) {
 		GameState.playerLane = laneIdx;
 		SoundFX.playLaneShift();
 		updateLaneCardHighlights();
+	}
+}
+
+function pauseGame() {
+	if (GameState.status !== 'PLAYING') return;
+	GameState.status = 'PAUSED';
+	setPauseScreenVisible(true);
+}
+
+function resumeGame() {
+	if (GameState.status !== 'PAUSED') return;
+	GameState.status = 'PLAYING';
+	setPauseScreenVisible(false);
+}
+
+function togglePause() {
+	if (GameState.status === 'PLAYING') {
+		pauseGame();
+	} else if (GameState.status === 'PAUSED') {
+		resumeGame();
 	}
 }
 
@@ -123,6 +144,10 @@ function handleGateCollision(gate) {
 	GameState.currentQIndex++;
 
 	const spawnNext = () => {
+		if (GameState.status === 'PAUSED') {
+			setTimeout(spawnNext, 150);
+			return;
+		}
 		if (GameState.status !== 'PLAYING') return;
 
 		if (GameState.currentQIndex < GameState.questions.length) {
@@ -245,6 +270,8 @@ function animate() {
 			camera.position.x = 0;
 			camera.position.y = 4.4;
 		}
+	} else if (GameState.status === 'PAUSED') {
+		// Frozen in place while paused
 	} else {
 		camera.position.x = Math.sin(elapsedTime * 0.4) * 1.2;
 	}
@@ -259,6 +286,8 @@ function bindEvents() {
 	document.getElementById("btn-start").addEventListener("click", onStartGameClick);
 	document.getElementById("btn-restart").addEventListener("click", restartSameTopic);
 	document.getElementById("btn-new-topic").addEventListener("click", openTopicSelect);
+	document.getElementById("btn-resume").addEventListener("click", resumeGame);
+	document.getElementById("btn-pause-floating").addEventListener("click", togglePause);
 
 	document.querySelectorAll(".lane-card").forEach(card => {
 		card.addEventListener("click", () => {
@@ -267,6 +296,11 @@ function bindEvents() {
 	});
 
 	window.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape') {
+			togglePause();
+			return;
+		}
+
 		if (GameState.status !== 'PLAYING') return;
 
 		if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
