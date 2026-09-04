@@ -8,7 +8,7 @@ Rules:
 - Generate exactly 6 questions.
 - NEVER repeat or closely rephrase any question from the excluded list.`;
 
-export async function fetchAIQuestionsBatch(topic, batchNum, existingQuestions) {
+export async function fetchLLMQuestionsBatch(topic, batchNum, existingQuestions) {
 	let difficultyDirective = "";
 	if (batchNum === 1) {
 		difficultyDirective = "Tier 1: Foundational high-school level. Ramp from Easy (q1-2) to Medium (q3-4) to Hard (q5-6).";

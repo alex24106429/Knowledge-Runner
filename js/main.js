@@ -1,6 +1,6 @@
 import { SoundFX } from './audio.js';
 import { LANE_X, GATE_SPAWN_Z, PLAYER_Z, GameState, resetGameRuntimeState } from './state.js';
-import { fetchAIQuestionsBatch } from './api.js';
+import { fetchLLMQuestionsBatch } from './api.js';
 import {
 	init3D,
 	scene,
@@ -73,7 +73,7 @@ function checkAndTriggerBackgroundFetch() {
 		document.getElementById("fetch-toast").classList.add("visible");
 
 		const nextBatchNum = GameState.batchCount + 1;
-		fetchAIQuestionsBatch(GameState.topic, nextBatchNum, GameState.questions)
+		fetchLLMQuestionsBatch(GameState.topic, nextBatchNum, GameState.questions)
 			.then(newQuestions => {
 				GameState.questions.push(...newQuestions);
 				GameState.batchCount = nextBatchNum;
@@ -176,7 +176,7 @@ async function onStartGameClick() {
 	document.getElementById("loading-msg").textContent = `Synthesizing starting Tier 1 questions on "${topic}"...`;
 
 	try {
-		GameState.questions = await fetchAIQuestionsBatch(topic, 1, []);
+		GameState.questions = await fetchLLMQuestionsBatch(topic, 1, []);
 	} catch (err) {
 		alert("Failed to fetch questions!");
 	}

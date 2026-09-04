@@ -1,7 +1,7 @@
 {
 	"name": "Knowledge Runner",
 	"short_name": "KnowledgeRunner",
-	"description": "Fast-paced 3D educational quiz runner powered by AI.",
+	"description": "Fast-paced 3D educational quiz runner powered by LLMs.",
 	"start_url": "./index.html",
 	"scope": "./",
 	"display": "standalone",
