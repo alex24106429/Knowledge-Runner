@@ -1,21 +1,12 @@
-export const SYSTEM_PROMPT_INFINITE = `You are a quiz generator for an educational 3D game.
+export const SYSTEM_PROMPT = `You are a quiz generator for an educational game.
 Respond with ONLY a valid JSON object, no markdown fences, no commentary. Schema:
 {"topic": string, "questions": [{"id": int, "difficulty": "Easy"|"Medium"|"Hard"|"Expert", "question": string, "options": [string, string, string], "correct_index": int, "explanation": string}]}
 Rules:
-- Exactly 3 options per question (representing Left, Center, Right paths).
+- Exactly 3 options per question.
 - Options MUST be 1 to 3 words maximum so they are immediately readable.
 - correct_index is 0, 1, or 2 (randomized).
 - Generate exactly 6 questions.
 - NEVER repeat or closely rephrase any question from the excluded list.`;
-
-export const FALLBACK_QUESTIONS = [
-	{ difficulty: "Easy", question: "Which planet is closest to the Sun?", options: ["Mercury", "Venus", "Earth"], correct_index: 0, explanation: "Mercury is the closest planet to the Sun." },
-	{ difficulty: "Easy", question: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter"], correct_index: 1, explanation: "Mars has iron oxide causing its red color." },
-	{ difficulty: "Medium", question: "Where is the main asteroid belt?", options: ["Mars & Jupiter", "Earth & Mars", "Jupiter & Saturn"], correct_index: 0, explanation: "The asteroid belt sits between Mars and Jupiter." },
-	{ difficulty: "Medium", question: "Which moon is the largest in the solar system?", options: ["Titan", "Europa", "Ganymede"], correct_index: 2, explanation: "Ganymede is larger than Mercury." },
-	{ difficulty: "Hard", question: "What is the boundary where the solar wind stops?", options: ["Oort Cloud", "Heliopause", "Kuiper Cliff"], correct_index: 1, explanation: "The heliopause borders interstellar space." },
-	{ difficulty: "Hard", question: "Which planet has retrograde geysers on Triton?", options: ["Uranus", "Neptune", "Saturn"], correct_index: 1, explanation: "Triton orbits Neptune retrograde." }
-];
 
 export async function fetchAIQuestionsBatch(topic, batchNum, existingQuestions) {
 	let difficultyDirective = "";
@@ -34,9 +25,8 @@ CRITICAL - DO NOT repeat any of these already used questions: [${pastQuestionStr
 Keep all options strictly 1 to 3 words.`;
 
 	const payload = {
-		model: "minimax/minimax-m3:free",
 		messages: [
-			{ role: "system", content: SYSTEM_PROMPT_INFINITE },
+			{ role: "system", content: SYSTEM_PROMPT },
 			{ role: "user", content: userPrompt }
 		],
 		temperature: 0.7,

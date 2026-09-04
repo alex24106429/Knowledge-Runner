@@ -1,6 +1,6 @@
 import { SoundFX } from './audio.js';
 import { LANE_X, GATE_SPAWN_Z, PLAYER_Z, GameState, resetGameRuntimeState } from './state.js';
-import { fetchAIQuestionsBatch, FALLBACK_QUESTIONS } from './api.js';
+import { fetchAIQuestionsBatch } from './api.js';
 import {
     init3D,
     scene,
@@ -151,8 +151,7 @@ async function onStartGameClick() {
     try {
         GameState.questions = await fetchAIQuestionsBatch(topic, 1, []);
     } catch (err) {
-        console.warn("Using fallback bank:", err);
-        GameState.questions = FALLBACK_QUESTIONS;
+		alert("Failed to fetch questions!");
     }
 
     startGame();
