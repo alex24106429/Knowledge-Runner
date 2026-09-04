@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>Knowledge Runner</title>
+	<link rel="stylesheet" href="css/style.css">
+	<!-- Three.js CDN -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+
+<body>
+
+	<div id="canvas-container"></div>
+
+	<!-- IN-GAME HUD -->
+	<div id="ui-layer" style="display: none;">
+		<div class="hud-top">
+			<div class="stats-bar">
+				<div class="stat-item">
+					<span>SCORE</span>
+					<span class="stat-value" id="hud-score">0</span>
+				</div>
+				<div class="stat-item">
+					<span>STREAK</span>
+					<span class="stat-value" id="hud-streak" style="color: var(--yellow);">0</span>
+				</div>
+				<div class="stat-item">
+					<span class="tier-badge" id="hud-tier">TIER 1</span>
+				</div>
+				<div class="stat-item">
+					<span>LIVES</span>
+					<div class="lives-container" id="hud-lives">❤️❤️❤️</div>
+				</div>
+			</div>
+
+			<div class="question-banner" id="question-banner">
+				<div class="fetch-toast" id="fetch-toast">
+					<div class="mini-spinner"></div>
+					<span>Synthesizing harder tier...</span>
+				</div>
+
+				<div class="banner-top-meta">
+					<span class="q-number-tag" id="q-number">QUESTION 1</span>
+					<span class="q-difficulty diff-easy" id="q-difficulty">EASY</span>
+				</div>
+
+				<div class="q-text" id="q-text">Loading question...</div>
+				<div class="approach-wrap">
+					<div class="approach-bar" id="approach-bar"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="feedback-flash" id="feedback-flash">CORRECT!</div>
+
+		<div class="hud-bottom">
+			<div class="lane-cards-grid">
+				<div class="lane-card" id="card-lane-0" data-lane="0">
+					<span class="lane-badge">← LEFT [A]</span>
+					<span class="lane-text" id="text-lane-0">Option A</span>
+				</div>
+				<div class="lane-card active" id="card-lane-1" data-lane="1">
+					<span class="lane-badge">↑ CENTER [W]</span>
+					<span class="lane-text" id="text-lane-1">Option B</span>
+				</div>
+				<div class="lane-card" id="card-lane-2" data-lane="2">
+					<span class="lane-badge">RIGHT → [D]</span>
+					<span class="lane-text" id="text-lane-2">Option C</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- START SCREEN MODAL -->
+	<div class="screen-modal" id="screen-start">
+		<div class="modal-card">
+			<h1 class="game-title">KNOWLEDGE <span>RUNNER</span></h1>
+			<p class="modal-subtitle">Infinite AI Quiz Runner.</p>
+
+			<div class="form-group">
+				<label for="topic-input">Quiz Topic</label>
+				<input type="text" id="topic-input" placeholder="e.g. Solar System, World War II..."
+					value="Solar System">
+				<div class="preset-chips">
+					<span class="chip" data-topic="Solar System">🪐 Astronomy</span>
+					<span class="chip" data-topic="World War II">⚔️ History</span>
+					<span class="chip" data-topic="Computer Science">💻 Tech</span>
+					<span class="chip" data-topic="Biology & Cells">🧬 Biology</span>
+				</div>
+			</div>
+
+			<button class="btn-action" id="btn-start">Start Infinite Run</button>
+			<div style="margin-top: 1rem; font-size: 0.8rem; color: #64748b;">
+				Controls: Left/Right Arrow Keys, A / D, or tap bottom lane cards.
+			</div>
+		</div>
+	</div>
+
+	<!-- INITIAL LOADING SCREEN MODAL -->
+	<div class="screen-modal" id="screen-loading" style="display: none;">
+		<div class="modal-card">
+			<h2 style="font-size: 1.5rem; margin-bottom: 0.4rem; text-transform: uppercase;">Generating Tier 1...</h2>
+			<p class="modal-subtitle" id="loading-msg">Synthesizing starting questions...</p>
+			<div class="spinner"></div>
+		</div>
+	</div>
+
+	<!-- GAME OVER MODAL -->
+	<div class="screen-modal" id="screen-gameover" style="display: none;">
+		<div class="modal-card">
+			<h1 class="game-title" style="color: var(--magenta);">RUN <span>COMPLETE</span></h1>
+			<p class="modal-subtitle">Here is your full revision summary:</p>
+
+			<div
+				style="display: flex; justify-content: space-around; margin: 1rem 0; background: #18233c; padding: 0.9rem; border-radius: 8px;">
+				<div>
+					<div style="font-size: 0.75rem; color: #94a3b8;">FINAL SCORE</div>
+					<div style="font-size: 1.7rem; font-weight: 800; color: var(--cyan);" id="go-score">0</div>
+				</div>
+				<div>
+					<div style="font-size: 0.75rem; color: #94a3b8;">QUESTIONS</div>
+					<div style="font-size: 1.7rem; font-weight: 800; color: var(--green);" id="go-correct">0</div>
+				</div>
+				<div>
+					<div style="font-size: 0.75rem; color: #94a3b8;">BEST STREAK</div>
+					<div style="font-size: 1.7rem; font-weight: 800; color: var(--yellow);" id="go-streak">0</div>
+				</div>
+			</div>
+
+			<div class="review-scroll" id="review-list"></div>
+
+			<div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+				<button class="btn-action" style="flex: 1;" id="btn-restart">Run Again</button>
+				<button class="btn-action" style="flex: 1; background: #334155; color: #fff;" id="btn-new-topic">New
+					Topic</button>
+			</div>
+		</div>
+	</div>
+
+	<script type="module" src="js/main.js"></script>
+</body>
+
+</html>
