@@ -1,0 +1,288 @@
+/* Top HUD */
+.hud-top {
+	width: 100%;
+	padding: calc(0.75rem + env(safe-area-inset-top, 0px)) 1rem 0.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.6rem;
+	pointer-events: auto;
+}
+
+.stats-bar {
+	width: 100%;
+	max-width: 860px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: var(--panel-bg);
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+	padding: 0.5rem 1rem;
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+	gap: 0.5rem;
+}
+
+.stat-item {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.stat-label {
+	font-size: 0.75rem;
+	font-weight: 800;
+	color: #94a3b8;
+	letter-spacing: 0.5px;
+}
+
+.stat-value {
+	color: var(--cyan);
+	font-size: 1.2rem;
+	font-weight: 900;
+	line-height: 1;
+}
+
+.stat-streak-val {
+	color: var(--yellow);
+}
+
+.tier-badge {
+	background: rgba(0, 240, 255, 0.15);
+	border: 1px solid var(--cyan);
+	color: var(--cyan);
+	padding: 0.25rem 0.55rem;
+	border-radius: 6px;
+	font-size: 0.78rem;
+	font-weight: 900;
+	letter-spacing: 0.5px;
+	white-space: nowrap;
+}
+
+.lives-container {
+	display: flex;
+	align-items: center;
+	gap: 0.2rem;
+	transition: transform 0.2s ease;
+}
+
+.lives-container.pop {
+	transform: scale(1.25);
+}
+
+.heart-icon {
+	font-size: 1.35rem;
+	line-height: 1;
+	transition: color 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+}
+
+.heart-icon.active {
+	color: var(--red);
+	font-variation-settings: 'FILL' 1;
+	filter: drop-shadow(0 0 6px rgba(255, 51, 68, 0.6));
+}
+
+.heart-icon.empty {
+	color: #334155;
+	font-variation-settings: 'FILL' 0;
+	opacity: 0.45;
+}
+
+/* Pause Button Integrated into Stats Bar */
+.btn-pause-header {
+	width: 38px;
+	height: 38px;
+	min-width: 38px;
+	border-radius: 8px;
+	background: rgba(15, 23, 42, 0.9);
+	border: 1.5px solid var(--border-color);
+	color: var(--cyan);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	pointer-events: auto;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+	transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+	outline: none;
+	touch-action: manipulation;
+}
+
+.btn-pause-header:hover {
+	border-color: var(--cyan);
+	background: #18233c;
+	transform: scale(1.05);
+}
+
+.btn-pause-header:active {
+	transform: scale(0.92);
+}
+
+.btn-pause-header .material-symbols-outlined {
+	font-size: 22px;
+}
+
+/* Question Banner */
+.question-banner {
+	width: 100%;
+	max-width: 860px;
+	background: #090e1f;
+	border: 2px solid var(--cyan);
+	border-radius: 14px;
+	padding: 1rem 1.4rem 0.85rem;
+	text-align: center;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 240, 255, 0.3);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	position: relative;
+}
+
+.banner-top-meta {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.6rem;
+	margin-bottom: 0.35rem;
+}
+
+.q-number-tag {
+	font-size: 0.78rem;
+	font-weight: 800;
+	color: #94a3b8;
+}
+
+.q-difficulty {
+	display: inline-block;
+	font-size: 0.72rem;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 1.2px;
+	padding: 0.15rem 0.55rem;
+	border-radius: 4px;
+}
+
+.diff-easy {
+	background: rgba(0, 255, 102, 0.2);
+	color: var(--green);
+	border: 1px solid var(--green);
+}
+
+.diff-medium {
+	background: rgba(255, 230, 0, 0.2);
+	color: var(--yellow);
+	border: 1px solid var(--yellow);
+}
+
+.diff-hard {
+	background: rgba(255, 0, 119, 0.2);
+	color: var(--magenta);
+	border: 1px solid var(--magenta);
+}
+
+.diff-expert {
+	background: rgba(168, 85, 247, 0.25);
+	color: #c084fc;
+	border: 1px solid #c084fc;
+}
+
+.q-text {
+	font-size: 1.35rem;
+	font-weight: 800;
+	line-height: 1.35;
+	color: #ffffff;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Approach Progress Bar */
+.approach-wrap {
+	width: 100%;
+	height: 6px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 3px;
+	margin-top: 0.7rem;
+	overflow: hidden;
+}
+
+.approach-bar {
+	width: 0%;
+	height: 100%;
+	background: var(--cyan);
+	transition: width 0.05s linear;
+}
+
+/* Bottom HUD / Lane Cards */
+.hud-bottom {
+	padding: 0.75rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+	display: flex;
+	justify-content: center;
+	pointer-events: auto;
+}
+
+.lane-cards-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 0.85rem;
+	width: 100%;
+	max-width: 860px;
+}
+
+.lane-card {
+	background: #0f172a;
+	border: 2px solid #334155;
+	border-radius: 12px;
+	padding: 0.75rem 0.6rem;
+	text-align: center;
+	cursor: pointer;
+	transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	min-height: 72px;
+	gap: 0.35rem;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+	touch-action: manipulation;
+}
+
+.lane-card.active {
+	border-color: var(--cyan);
+	background: #132742;
+	box-shadow: 0 0 20px rgba(0, 240, 255, 0.45);
+	transform: translateY(-3px);
+}
+
+.lane-badge {
+	font-size: 0.78rem;
+	font-weight: 900;
+	color: var(--cyan);
+	letter-spacing: 0.5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+	white-space: nowrap;
+}
+
+.lane-card.active .lane-badge {
+	color: #fff;
+}
+
+.badge-key {
+	opacity: 0.75;
+	font-size: 0.72rem;
+}
+
+.lane-text {
+	font-size: 1.1rem;
+	font-weight: 700;
+	line-height: 1.25;
+	color: #f8fafc;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+	word-break: normal;
+	overflow-wrap: break-word;
+}

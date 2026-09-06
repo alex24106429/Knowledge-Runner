@@ -1,0 +1,98 @@
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+	.hud-top {
+		padding: calc(0.45rem + env(safe-area-inset-top, 0px)) 0.6rem 0.35rem 0.6rem;
+		gap: 0.4rem;
+	}
+
+	.stats-bar {
+		padding: 0.35rem 0.55rem;
+		border-radius: 10px;
+		gap: 0.35rem;
+	}
+
+	.stat-item {
+		flex-direction: column;
+		gap: 1px;
+		align-items: center;
+		text-align: center;
+	}
+
+	.stat-label {
+		font-size: 0.65rem;
+		line-height: 1;
+	}
+
+	.stat-value {
+		font-size: 1rem;
+	}
+
+	.tier-badge {
+		font-size: 0.7rem;
+		padding: 0.18rem 0.4rem;
+	}
+
+	.heart-icon {
+		font-size: 1.15rem;
+	}
+
+	.btn-pause-header {
+		width: 34px;
+		height: 34px;
+		min-width: 34px;
+	}
+
+	.btn-pause-header .material-symbols-outlined {
+		font-size: 19px;
+	}
+
+	.question-banner {
+		padding: 0.65rem 0.85rem 0.55rem;
+		border-radius: 12px;
+	}
+
+	.banner-top-meta {
+		margin-bottom: 0.25rem;
+	}
+
+	.q-text {
+		font-size: clamp(0.95rem, 3.6vw, 1.15rem);
+		line-height: 1.3;
+	}
+
+	.approach-wrap {
+		height: 4px;
+		margin-top: 0.45rem;
+	}
+
+	.hud-bottom {
+		padding: 0.35rem 0.5rem calc(0.55rem + env(safe-area-inset-bottom, 0px)) 0.5rem;
+	}
+
+	.lane-cards-grid {
+		gap: 0.4rem;
+	}
+
+	.lane-card {
+		padding: 0.45rem 0.35rem;
+		min-height: 62px;
+		border-radius: 10px;
+	}
+
+	.badge-key {
+		display: none;
+	}
+
+	.lane-badge {
+		font-size: 0.72rem;
+	}
+
+	.lane-text {
+		font-size: clamp(0.78rem, 2.8vw, 0.95rem);
+		line-height: 1.2;
+	}
+
+	.pause-title {
+		font-size: 2.2rem;
+	}
+}
