@@ -13,10 +13,6 @@ export function createRoadTexture(renderer) {
 			ctx.fillStyle = `rgba(${value},${value},${value},0.22)`;
 			ctx.fillRect(Math.random() * w, Math.random() * h, 1, 1);
 		}
-
-		ctx.strokeStyle = 'rgba(15,25,40,0.35)';
-		ctx.lineWidth = 2;
-		ctx.strokeRect(2, 2, w - 4, h - 4);
 	});
 
 	texture.wrapS = THREE.RepeatWrapping;
