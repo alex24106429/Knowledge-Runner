@@ -123,6 +123,7 @@ export function createPlayer(scene) {
 	characterMeshes.rightArm = rightArm;
 
 	playerGroup.position.set(LANE_X[1], 0, PLAYER_Z);
+	playerGroup.rotation.y = Math.PI;
 	scene.add(playerGroup);
 	return playerGroup;
 }

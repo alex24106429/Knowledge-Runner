@@ -39,7 +39,7 @@ function animate() {
 
 		const targetX = LANE_X[GameState.playerLane];
 		playerGroup.position.x += (targetX - playerGroup.position.x) * 12 * dt;
-		playerGroup.rotation.z = -(targetX - playerGroup.position.x) * 0.08;
+		playerGroup.rotation.z = (targetX - playerGroup.position.x) * 0.08;
 
 		const runCycle = elapsedTime * (currentSpeed * 0.45);
 		if (characterMeshes.leftLeg) {
